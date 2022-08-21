@@ -1,4 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   return runApp(
@@ -16,22 +19,73 @@ void main() {
   );
 }
 
-class DicePage extends StatelessWidget {
+class DicePage extends StatefulWidget {
+  const DicePage({Key key}) : super(key: key);
+
+  @override
+  State<DicePage> createState() => _DicePageState();
+}
+
+class _DicePageState extends State<DicePage> {
+  int leftDiceNumber = 3;
+  int rightDiceNumber = 1;
+
+  void changeDiceNUmber() {
+    //nextInt(6) starts form 0 to 5, so we must add 1
+    leftDiceNumber = Random().nextInt(6) + 1;
+    rightDiceNumber = Random().nextInt(6) + 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Image.asset('images/dice1.png'),
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      changeDiceNUmber();
+                    });
+                  },
+                  child: Image.asset('images/dice$leftDiceNumber.png'),
+                ),
+              ),
+              Expanded(
+                child: FlatButton(
+                  onPressed: () {
+                    setState(() {
+                      changeDiceNUmber();
+                    });
+                  },
+                  child: Image.asset('images/dice$rightDiceNumber.png'),
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Image.asset('images/dice2.png'),
+          SizedBox(
+            height: 25,
+          ),
+          Container(
+            height: 75,
+            width: 200,
+            decoration: BoxDecoration(
+              color: Colors.blueGrey,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  changeDiceNUmber();
+                });
+              },
+              child: Text(
+                "Tap!",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ),
         ],
